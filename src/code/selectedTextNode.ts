@@ -1,7 +1,7 @@
 type Table = {
   textStyleId: string;
   textStyleName: string;
-  fontSize: number;
+  fontSize: string;
   lineHeight: string;
   nodes?: string[];
 };
@@ -25,7 +25,23 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     .filter((node) => node.type === 'TEXT') as TextNode[];
 
   return selectedTextNodes.reduce((previousValue, text) => {
-    const fontSize = Number(text.fontSize);
+    if (text.textStyleId === figma.mixed) {
+      const table: Table = {
+        textStyleId: 'mixed',
+        textStyleName: 'mixed',
+        fontSize: 'mixed',
+        lineHeight: 'mixed',
+        nodes: [...(previousValue['mixed']?.nodes ?? []), text.id],
+      };
+      return {
+        ...previousValue,
+        ...{
+          mixed: table,
+        },
+      };
+    }
+
+    const fontSize = String(text.fontSize);
     const l = text.lineHeight as LineHeight;
     const lineHeightValue = l.unit === 'AUTO' ? 'AUTO' : l.value;
     const lineHeightUnit =
