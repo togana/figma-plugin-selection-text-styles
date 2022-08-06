@@ -17,14 +17,14 @@ const init = () => {
 
 init();
 
-figma.ui.onmessage = async (msg: {
+figma.ui.onmessage = (msg: {
   type: 'select-text-node';
   table: SelectedTextNodeTable;
   key: string;
 }) => {
   switch (msg.type) {
     case 'select-text-node':
-      await selectTextNodes(msg.table, msg.key);
+      selectTextNodes(msg.table, msg.key);
       break;
   }
 };
