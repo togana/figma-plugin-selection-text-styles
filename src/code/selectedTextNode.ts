@@ -8,11 +8,21 @@ type Table = {
 
 export type SelectedTextNodeTable = Record<string, Table>;
 
+const recursionNodes = (node: SceneNode): SceneNode[] => {
+  return (
+    'children' in node ? node.children.map((n) => recursionNodes(n)) : [node]
+  ).flat();
+};
+
 export const selectedTextNodeTable = (): SelectedTextNodeTable => {
   const selectedNodes = figma.currentPage.selection;
-  const selectedTextNodes = selectedNodes.filter(
-    (node) => node.type === 'TEXT'
-  ) as TextNode[];
+
+  const selectedTextNodes = selectedNodes
+    .reduce((previousValue, node) => {
+      const n = recursionNodes(node);
+      return [...previousValue, ...n];
+    }, [] as SceneNode[])
+    .filter((node) => node.type === 'TEXT') as TextNode[];
 
   return selectedTextNodes.reduce((previousValue, text) => {
     const fontSize = Number(text.fontSize);
