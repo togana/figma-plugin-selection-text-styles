@@ -74,19 +74,33 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     };
   }, {} as SelectedTextNodeTable);
 
-  // fontSize でソート
   return Object.fromEntries(
-    Object.entries(table).sort(([key1, value1], [key2, value2]) => {
-      if (value1.fontSize === 'mixed') {
-        return 1;
-      }
-      if (value1.fontSize < value2.fontSize) {
-        return -1;
-      }
-      if (value1.fontSize > value2.fontSize) {
-        return 1;
-      }
-      return 0;
-    })
+    Object.entries(table)
+      // 先に lineHeight でソート
+      .sort(([key1, value1], [key2, value2]) => {
+        if (value1.lineHeight === 'mixed') {
+          return 1;
+        }
+        if (value1.lineHeight < value2.lineHeight) {
+          return -1;
+        }
+        if (value1.lineHeight > value2.lineHeight) {
+          return 1;
+        }
+        return 0;
+      })
+      // 最後に fontSize でソート
+      .sort(([key1, value1], [key2, value2]) => {
+        if (value1.fontSize === 'mixed') {
+          return 1;
+        }
+        if (value1.fontSize < value2.fontSize) {
+          return -1;
+        }
+        if (value1.fontSize > value2.fontSize) {
+          return 1;
+        }
+        return 0;
+      })
   );
 };
