@@ -24,7 +24,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     }, [] as SceneNode[])
     .filter((node) => node.type === 'TEXT') as TextNode[];
 
-  return selectedTextNodes.reduce((previousValue, text) => {
+  const table = selectedTextNodes.reduce((previousValue, text) => {
     if (text.textStyleId === figma.mixed) {
       const table: Table = {
         textStyleId: 'mixed',
@@ -69,4 +69,20 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
       },
     };
   }, {} as SelectedTextNodeTable);
+
+  // fontSize でソート
+  return Object.fromEntries(
+    Object.entries(table).sort(([key1, value1], [key2, value2]) => {
+      if (value1.fontSize === 'mixed') {
+        return 1;
+      }
+      if (value1.fontSize < value2.fontSize) {
+        return -1;
+      }
+      if (value1.fontSize > value2.fontSize) {
+        return 1;
+      }
+      return 0;
+    })
+  );
 };
