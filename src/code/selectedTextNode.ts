@@ -14,6 +14,9 @@ const recursionNodes = (node: SceneNode): SceneNode[] => {
   ).flat();
 };
 
+const roundDecimal = (value: number, n: number) =>
+  Math.round(value * Math.pow(10, n)) / Math.pow(10, n);
+
 export const selectedTextNodeTable = (): SelectedTextNodeTable => {
   const selectedNodes = figma.currentPage.selection;
 
@@ -43,7 +46,8 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
 
     const fontSize = String(text.fontSize);
     const l = text.lineHeight as LineHeight;
-    const lineHeightValue = l.unit === 'AUTO' ? 'AUTO' : l.value;
+    const lineHeightValue =
+      l.unit === 'AUTO' ? 'AUTO' : roundDecimal(l.value, 2);
     const lineHeightUnit =
       l.unit === 'AUTO' ? '' : l.unit === 'PERCENT' ? '%' : 'px';
     const lineHeight = `${lineHeightValue}${lineHeightUnit}`;
