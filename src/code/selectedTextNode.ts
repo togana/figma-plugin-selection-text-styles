@@ -47,7 +47,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     const fontSize = String(text.fontSize);
     const l = text.lineHeight as LineHeight;
     const lineHeightValue =
-      l.unit === 'AUTO' ? 'AUTO' : roundDecimal(l.value, 2);
+      l.unit === 'AUTO' ? 'Auto' : roundDecimal(l.value, 2);
     const lineHeightUnit =
       l.unit === 'AUTO' ? '' : l.unit === 'PERCENT' ? '%' : 'px';
     const lineHeight = `${lineHeightValue}${lineHeightUnit}`;
