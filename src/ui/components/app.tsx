@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { SelectedTextNodeTable } from '../../code/selectedTextNode';
+import { IconButton } from './icon-button';
+import { SelectIcon } from './select-icon';
 
 export const App = () => {
   const [table, setTable] = useState<SelectedTextNodeTable>({});
@@ -50,9 +52,9 @@ export const App = () => {
                 <td>{row.fontSize}</td>
                 <td>{row.lineHeight}</td>
                 <td>
-                  <button onClick={() => selectTextNodes(table, key)}>
-                    select
-                  </button>
+                  <IconButton onClick={() => selectTextNodes(table, key)}>
+                    <SelectIcon />
+                  </IconButton>
                 </td>
               </tr>
             );
