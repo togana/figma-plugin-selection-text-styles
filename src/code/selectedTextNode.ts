@@ -80,9 +80,22 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
 
   return Object.fromEntries(
     Object.entries(table)
+      .sort(([key1, value1], [key2, value2]) => {
+        if (value1.fontSize === 'mixed') {
+          return -1;
+        }
+        if (value2.fontSize === 'mixed') {
+          return 1;
+        }
+        return 0;
+      })
+
       // 先に textStyleName でソート
       .sort(([key1, value1], [key2, value2]) => {
-        if (value2.textStyleName === 'mixed') {
+        if (
+          value1.textStyleName === 'mixed' ||
+          value2.textStyleName === 'mixed'
+        ) {
           return 0;
         }
         if (value1.textStyleName < value2.textStyleName) {
@@ -95,7 +108,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
       })
       // 次に lineHeight でソート
       .sort(([key1, value1], [key2, value2]) => {
-        if (value2.lineHeight === 'mixed') {
+        if (value1.lineHeight === 'mixed' || value2.lineHeight === 'mixed') {
           return 0;
         }
         if (Number(value1.lineHeight) < Number(value2.lineHeight)) {
@@ -108,8 +121,8 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
       })
       // 最後に fontSize でソート
       .sort(([key1, value1], [key2, value2]) => {
-        if (value2.fontSize === 'mixed') {
-          return 1;
+        if (value1.fontSize === 'mixed' || value2.fontSize === 'mixed') {
+          return 0;
         }
         if (Number(value1.fontSize) < Number(value2.fontSize)) {
           return -1;
