@@ -8,7 +8,6 @@ export const App = () => {
       data: {
         pluginMessage: {
           type: 'init';
-          message: string;
           table: SelectedTextNodeTable;
         };
       };

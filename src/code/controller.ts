@@ -10,7 +10,6 @@ const init = () => {
   const table = selectedTextNodeTable();
   figma.ui.postMessage({
     type: 'init',
-    message: 'hello',
     table,
   });
 };
