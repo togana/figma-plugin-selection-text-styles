@@ -32,7 +32,6 @@ export const App = () => {
 
   return (
     <div>
-      <h2>selection text styles</h2>
       <table>
         <thead>
           <tr>
