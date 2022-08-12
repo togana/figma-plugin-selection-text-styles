@@ -17,6 +17,10 @@ const init = () => {
 
 init();
 
+figma.on('selectionchange', () => {
+  init();
+});
+
 figma.ui.onmessage = (msg: {
   type: 'select-text-node';
   table: SelectedTextNodeTable;
