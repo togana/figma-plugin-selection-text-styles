@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { SelectedTextNodeTable } from '../../code/selectedTextNode';
 import { IconButton } from './icon-button';
+import { TdText } from './td-text';
 import { SelectIcon } from './select-icon';
 
 export const App = () => {
@@ -30,36 +31,31 @@ export const App = () => {
     );
   };
 
-  return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>styleName</th>
-            <th>fontSize</th>
-            <th>lineHeight</th>
-            <th>action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(table).map((key) => {
-            const row = table[key];
+  if (!Object.keys(table).length) {
+    return <p>Select one or more TextNodes.</p>;
+  }
 
-            return (
-              <tr>
-                <td>{row.textStyleName}</td>
-                <td>{row.fontSize}</td>
-                <td>{row.lineHeight}</td>
-                <td>
-                  <IconButton onClick={() => selectTextNodes(table, key)}>
-                    <SelectIcon />
-                  </IconButton>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+  return (
+    <table>
+      <tbody>
+        {Object.keys(table).map((key) => {
+          const row = table[key];
+
+          return (
+            <tr>
+              <TdText>{row.textStyleName}</TdText>
+              <TdText>
+                {row.fontSize}/{row.lineHeight}
+              </TdText>
+              <td>
+                <IconButton onClick={() => selectTextNodes(table, key)}>
+                  <SelectIcon />
+                </IconButton>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
