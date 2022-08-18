@@ -5,7 +5,7 @@ import {
 import { selectTextNodes } from './selectTextNode';
 
 // figma.showUI(__html__, { width: 262, height: 300 });
-figma.showUI(__html__, { width: 400, height: 300 });
+figma.showUI(__html__, { width: 400, height: 600 });
 
 const init = () => {
   const table = selectedTextNodeTable();
