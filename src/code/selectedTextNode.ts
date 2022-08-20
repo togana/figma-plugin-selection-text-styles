@@ -3,8 +3,11 @@ type Table = {
   textStyleName: string;
   fontFamily: string;
   fontStyle: string;
+  fontSizeValue: number;
   fontSize: string;
+  lineHeightValue: 'Auto' | number;
   lineHeight: string;
+  letterSpacingValue: number;
   letterSpacing: string;
   nodes?: string[];
 };
@@ -43,8 +46,11 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         textStyleName: 'mixed',
         fontFamily: 'mixed',
         fontStyle: 'mixed',
+        fontSizeValue: 0,
         fontSize: 'mixed',
+        lineHeightValue: 0,
         lineHeight: 'mixed',
+        letterSpacingValue: 0,
         letterSpacing: 'mixed',
         nodes: [...(previousValue['mixed']?.nodes ?? []), text.id],
       };
@@ -57,15 +63,13 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     }
 
     const fontSize = String(text.fontSize);
+    const fontSizeValue = text.fontSize;
     const lh = text.lineHeight as LineHeight;
-    const lineHeightValue =
+    const lineHeightValue: 'Auto' | number =
       lh.unit === 'AUTO' ? 'Auto' : roundDecimal(lh.value, 2);
     const lineHeightUnit =
       lh.unit === 'AUTO' ? '' : lh.unit === 'PERCENT' ? '%' : 'px';
     const lineHeight = `${lineHeightValue}${lineHeightUnit}`;
-    const keys = text.textStyleId
-      ? text.textStyleId
-      : `${fontSize}:${lineHeight}`;
     const textStyleName = text.textStyleId
       ? figma.getStyleById(String(text.textStyleId))?.name ?? ''
       : '';
@@ -75,14 +79,20 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     const letterSpacingValue = roundDecimal(ls.value, 2);
     const letterSpacingUnit = ls.unit === 'PERCENT' ? '%' : 'px';
     const letterSpacing = `${letterSpacingValue}${letterSpacingUnit}`;
+    const keys = text.textStyleId
+      ? text.textStyleId
+      : `${fontFamily}:${fontStyle}:${fontSize}:${lineHeight}:${letterSpacing}`;
 
     const table: Table = {
       textStyleId: String(text.textStyleId),
       textStyleName,
       fontFamily,
+      fontSizeValue,
       fontStyle,
       fontSize,
+      lineHeightValue,
       lineHeight,
+      letterSpacingValue,
       letterSpacing,
       nodes: [...(previousValue[String(keys)]?.nodes ?? []), text.id],
     };
@@ -104,16 +114,43 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         if (value2.textStyleName === 'mixed') {
           return 1;
         }
+        if (value1.lineHeightValue === 'Auto') {
+          return -1;
+        }
+        if (value2.lineHeightValue === 'Auto') {
+          return 1;
+        }
         return 0;
       })
       .sort(([key1, value1], [key2, value2]) => {
-        if (value1.lineHeight === 'mixed' || value2.lineHeight === 'mixed') {
+        if (
+          value1.letterSpacing === 'mixed' ||
+          value2.letterSpacing === 'mixed'
+        ) {
           return 0;
         }
-        if (Number(value1.lineHeight) < Number(value2.lineHeight)) {
+        if (value1.letterSpacingValue < value2.letterSpacingValue) {
           return -1;
         }
-        if (Number(value1.lineHeight) > Number(value2.lineHeight)) {
+        if (value1.letterSpacingValue > value2.letterSpacingValue) {
+          return 1;
+        }
+        return 0;
+      })
+      .sort(([key1, value1], [key2, value2]) => {
+        if (
+          value1.lineHeight === 'mixed' ||
+          value2.lineHeight === 'mixed' ||
+          value1.lineHeightValue === 'Auto' ||
+          value2.lineHeightValue === 'Auto'
+        ) {
+          return 0;
+        }
+
+        if (value1.lineHeightValue < value2.lineHeightValue) {
+          return -1;
+        }
+        if (value1.lineHeightValue > value2.lineHeightValue) {
           return 1;
         }
         return 0;
@@ -122,10 +159,10 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         if (value1.fontSize === 'mixed' || value2.fontSize === 'mixed') {
           return 0;
         }
-        if (Number(value1.fontSize) < Number(value2.fontSize)) {
+        if (value1.fontSizeValue < value2.fontSizeValue) {
           return -1;
         }
-        if (Number(value1.fontSize) > Number(value2.fontSize)) {
+        if (value1.fontSizeValue > value2.fontSizeValue) {
           return 1;
         }
         return 0;
