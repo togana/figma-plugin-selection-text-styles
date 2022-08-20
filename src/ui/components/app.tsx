@@ -3,6 +3,7 @@ import type { SelectedTextNodeTable } from '../../code/selectedTextNode';
 import { IconButton } from './icon-button';
 import { TdText } from './td-text';
 import { SelectIcon } from './select-icon';
+import { NwseResize } from './nwse-resize';
 
 export const App = () => {
   const [table, setTable] = useState<SelectedTextNodeTable>({});
@@ -32,10 +33,16 @@ export const App = () => {
   };
 
   if (!Object.keys(table).length) {
-    return <p>Select one or more TextNodes.</p>;
+    return (
+      <div>
+        <p>Select one or more TextNodes.</p>
+        <NwseResize />
+      </div>
+    );
   }
 
   return (
+    <div>
     <table>
       <tbody>
         {Object.keys(table).map((key) => {
@@ -60,5 +67,7 @@ export const App = () => {
         })}
       </tbody>
     </table>
+      <NwseResize />
+    </div>
   );
 };
