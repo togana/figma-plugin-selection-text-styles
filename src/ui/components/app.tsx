@@ -46,6 +46,7 @@ export const App = () => {
     <div>
       <TableVirtuoso
         data={Object.keys(table)}
+        overscan={1000}
         itemContent={(index, key) => {
           const row = table[key];
 
