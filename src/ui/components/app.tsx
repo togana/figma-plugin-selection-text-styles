@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TableVirtuoso } from 'react-virtuoso';
 import type { SelectedTextNodeTable } from '../../code/selectedTextNode';
 import { IconButton } from './icon-button';
 import { TdText } from './td-text';
@@ -43,13 +44,13 @@ export const App = () => {
 
   return (
     <div>
-    <table>
-      <tbody>
-        {Object.keys(table).map((key) => {
+      <TableVirtuoso
+        data={Object.keys(table)}
+        itemContent={(index, key) => {
           const row = table[key];
 
           return (
-            <tr>
+            <>
               <TdText>{row.textStyleName}</TdText>
               <TdText>
                 {row.fontFamily}/{row.fontStyle}
@@ -62,11 +63,10 @@ export const App = () => {
                   <SelectIcon />
                 </IconButton>
               </td>
-            </tr>
+            </>
           );
-        })}
-      </tbody>
-    </table>
+        }}
+      />
       <NwseResize />
     </div>
   );
