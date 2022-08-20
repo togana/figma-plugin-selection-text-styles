@@ -81,32 +81,14 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
   return Object.fromEntries(
     Object.entries(table)
       .sort(([key1, value1], [key2, value2]) => {
-        if (value1.fontSize === 'mixed') {
+        if (value1.textStyleName === 'mixed') {
           return -1;
         }
-        if (value2.fontSize === 'mixed') {
+        if (value2.textStyleName === 'mixed') {
           return 1;
         }
         return 0;
       })
-
-      // 先に textStyleName でソート
-      .sort(([key1, value1], [key2, value2]) => {
-        if (
-          value1.textStyleName === 'mixed' ||
-          value2.textStyleName === 'mixed'
-        ) {
-          return 0;
-        }
-        if (value1.textStyleName < value2.textStyleName) {
-          return -1;
-        }
-        if (value1.textStyleName > value2.textStyleName) {
-          return 1;
-        }
-        return 0;
-      })
-      // 次に lineHeight でソート
       .sort(([key1, value1], [key2, value2]) => {
         if (value1.lineHeight === 'mixed' || value2.lineHeight === 'mixed') {
           return 0;
@@ -119,7 +101,6 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         }
         return 0;
       })
-      // 最後に fontSize でソート
       .sort(([key1, value1], [key2, value2]) => {
         if (value1.fontSize === 'mixed' || value2.fontSize === 'mixed') {
           return 0;
@@ -128,6 +109,21 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
           return -1;
         }
         if (Number(value1.fontSize) > Number(value2.fontSize)) {
+          return 1;
+        }
+        return 0;
+      })
+      .sort(([key1, value1], [key2, value2]) => {
+        if (
+          value1.textStyleName === 'mixed' ||
+          value2.textStyleName === 'mixed'
+        ) {
+          return 0;
+        }
+        if (value1.textStyleName < value2.textStyleName) {
+          return -1;
+        }
+        if (value1.textStyleName > value2.textStyleName) {
           return 1;
         }
         return 0;
