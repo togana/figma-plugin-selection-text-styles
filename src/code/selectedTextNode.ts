@@ -1,8 +1,11 @@
 type Table = {
   textStyleId: string;
   textStyleName: string;
+  fontFamily: string;
+  fontStyle: string;
   fontSize: string;
   lineHeight: string;
+  letterSpacing: string;
   nodes?: string[];
 };
 
@@ -30,14 +33,19 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
   const table = selectedTextNodes.reduce((previousValue, text) => {
     if (
       text.textStyleId === figma.mixed ||
+      text.fontName === figma.mixed ||
       text.fontSize === figma.mixed ||
-      text.lineHeight === figma.mixed
+      text.lineHeight === figma.mixed ||
+      text.letterSpacing === figma.mixed
     ) {
       const table: Table = {
         textStyleId: 'mixed',
         textStyleName: 'mixed',
+        fontFamily: 'mixed',
+        fontStyle: 'mixed',
         fontSize: 'mixed',
         lineHeight: 'mixed',
+        letterSpacing: 'mixed',
         nodes: [...(previousValue['mixed']?.nodes ?? []), text.id],
       };
       return {
@@ -49,11 +57,11 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     }
 
     const fontSize = String(text.fontSize);
-    const l = text.lineHeight as LineHeight;
+    const lh = text.lineHeight as LineHeight;
     const lineHeightValue =
-      l.unit === 'AUTO' ? 'Auto' : roundDecimal(l.value, 2);
+      lh.unit === 'AUTO' ? 'Auto' : roundDecimal(lh.value, 2);
     const lineHeightUnit =
-      l.unit === 'AUTO' ? '' : l.unit === 'PERCENT' ? '%' : 'px';
+      lh.unit === 'AUTO' ? '' : lh.unit === 'PERCENT' ? '%' : 'px';
     const lineHeight = `${lineHeightValue}${lineHeightUnit}`;
     const keys = text.textStyleId
       ? text.textStyleId
@@ -61,12 +69,21 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
     const textStyleName = text.textStyleId
       ? figma.getStyleById(String(text.textStyleId))?.name ?? ''
       : '';
+    const fontFamily = text.fontName.family;
+    const fontStyle = text.fontName.style;
+    const ls = text.letterSpacing as LetterSpacing;
+    const letterSpacingValue = roundDecimal(ls.value, 2);
+    const letterSpacingUnit = ls.unit === 'PERCENT' ? '%' : 'px';
+    const letterSpacing = `${letterSpacingValue}${letterSpacingUnit}`;
 
     const table: Table = {
       textStyleId: String(text.textStyleId),
       textStyleName,
+      fontFamily,
+      fontStyle,
       fontSize,
       lineHeight,
+      letterSpacing,
       nodes: [...(previousValue[String(keys)]?.nodes ?? []), text.id],
     };
 

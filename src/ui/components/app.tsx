@@ -45,7 +45,10 @@ export const App = () => {
             <tr>
               <TdText>{row.textStyleName}</TdText>
               <TdText>
-                {row.fontSize}/{row.lineHeight}
+                {row.fontFamily}/{row.fontStyle}
+              </TdText>
+              <TdText>
+                {row.fontSize}/{row.lineHeight}/{row.letterSpacing}
               </TdText>
               <td>
                 <IconButton onClick={() => selectTextNodes(table, key)}>
