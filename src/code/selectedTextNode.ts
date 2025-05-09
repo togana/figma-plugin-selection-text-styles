@@ -1,18 +1,4 @@
-type Table = {
-  textStyleId: string;
-  textStyleName: string;
-  fontFamily: string;
-  fontStyle: string;
-  fontSizeValue: number;
-  fontSize: string;
-  lineHeightValue: 'Auto' | number;
-  lineHeight: string;
-  letterSpacingValue: number;
-  letterSpacing: string;
-  nodes?: string[];
-};
-
-export type SelectedTextNodeTable = Record<string, Table>;
+import { SelectedTextNodeTable, Table } from '../typed-events'
 
 const recursionNodes = (node: SceneNode): SceneNode[] => {
   return (
@@ -107,7 +93,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
 
   return Object.fromEntries(
     Object.entries(table)
-      .sort(([key1, value1], [key2, value2]) => {
+      .sort(([_key1, value1], [_key2, value2]) => {
         if (value1.textStyleName === 'mixed') {
           return -1;
         }
@@ -122,7 +108,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         }
         return 0;
       })
-      .sort(([key1, value1], [key2, value2]) => {
+      .sort(([_key1, value1], [_key2, value2]) => {
         if (
           value1.letterSpacing === 'mixed' ||
           value2.letterSpacing === 'mixed'
@@ -137,7 +123,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         }
         return 0;
       })
-      .sort(([key1, value1], [key2, value2]) => {
+      .sort(([_key1, value1], [_key2, value2]) => {
         if (
           value1.lineHeight === 'mixed' ||
           value2.lineHeight === 'mixed' ||
@@ -155,7 +141,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         }
         return 0;
       })
-      .sort(([key1, value1], [key2, value2]) => {
+      .sort(([_key1, value1], [_key2, value2]) => {
         if (value1.fontSize === 'mixed' || value2.fontSize === 'mixed') {
           return 0;
         }
@@ -167,7 +153,7 @@ export const selectedTextNodeTable = (): SelectedTextNodeTable => {
         }
         return 0;
       })
-      .sort(([key1, value1], [key2, value2]) => {
+      .sort(([_key1, value1], [_key2, value2]) => {
         if (
           value1.textStyleName === 'mixed' ||
           value2.textStyleName === 'mixed'

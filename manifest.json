@@ -1,10 +1,10 @@
 {
-  "name": "selection-text-styles",
-  "id": "1137687368900402034",
   "api": "1.0.0",
-  "main": "dist/code.js",
   "editorType": [
     "figma"
   ],
-  "ui": "dist/ui.html"
+  "id": "1137687368900402034",
+  "name": "selection-text-styles",
+  "main": "build/main.js",
+  "ui": "build/ui.js"
 }
