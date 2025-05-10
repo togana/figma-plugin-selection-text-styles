@@ -9,20 +9,24 @@ export default async function () {
   const height = parseInt(storedSize?.height ?? 400);
 
   // 初期表示用の table データを取得して showUI で渡す
-  const table = selectedTextNodeTable();
+  const table = await selectedTextNodeTable();
   showUI({ width, height }, { table });
 
   // データ取得してリフレッシュする
-  onTyped("SELECTED_TEXT_NODE", () => {
-    const table = selectedTextNodeTable();
+  onTyped("SELECTED_TEXT_NODE", async () => {
+    const table = await selectedTextNodeTable();
     emitTyped("REFRESH_TABLE", table);
   });
 
   // TABLE 内で選択した TEXT を下に TEXT NODE を選択する
-  onTyped("SELECT_TEXT_NODE", (table, key) => {
-    const nodes = table[key]?.nodes
-      ?.map((node) => figma.getNodeById(node))
-      ?.filter((node) => node !== null) as TextNode[] | undefined;
+  onTyped("SELECT_TEXT_NODE", async (table, key) => {
+    const nodes = (
+      await Promise.all(
+        table[key]?.nodes?.map(
+          async (node) => await figma.getNodeByIdAsync(node)
+        ) ?? []
+      )
+    )?.filter((node) => node !== null) as TextNode[] | undefined;
 
     if (nodes) {
       figma.currentPage.selection = nodes;
