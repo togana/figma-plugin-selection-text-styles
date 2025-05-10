@@ -16,8 +16,8 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "build": "build-figma-plugin",
-    "watch": "build-figma-plugin --watch"
+    "build": "build-figma-plugin --typecheck --minify",
+    "watch": "build-figma-plugin --typecheck --watch"
   },
   "figma-plugin": {
     "editorType": [
@@ -26,6 +26,7 @@
     "id": "1137687368900402034",
     "name": "selection-text-styles",
     "main": "src/main.ts",
-    "ui": "src/ui.tsx"
+    "ui": "src/ui.tsx",
+    "networkAccess": { "allowedDomains": ["none"] }
   }
 }
