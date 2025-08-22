@@ -1,19 +1,19 @@
 {
   "name": "figma-plugin-selection-text-styles",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "figma-plugin-selection-text-styles",
   "author": "togana <o.togana@gmail.com>",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@create-figma-plugin/ui": "^4.0.1",
-    "@create-figma-plugin/utilities": "^4.0.1",
-    "preact": "^10.26.6"
+    "@create-figma-plugin/ui": "^4.0.2",
+    "@create-figma-plugin/utilities": "^4.0.2",
+    "preact": "^10.27.1"
   },
   "devDependencies": {
-    "@create-figma-plugin/build": "^4.0.1",
-    "@figma/plugin-typings": "^1.111.0",
-    "typescript": "^5.8.3"
+    "@create-figma-plugin/build": "^4.0.2",
+    "@figma/plugin-typings": "^1.117.0",
+    "typescript": "^5.9.2"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",
